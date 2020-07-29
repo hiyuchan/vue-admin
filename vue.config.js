@@ -51,9 +51,12 @@ module.exports = {
       proxy: {
         '/api': {
           /* 目标代理服务器地址 */
-          target: 'http://47.100.47.3/',
+          target: 'http://www.web-jshtml.cn/productapi',
           /* 允许跨域 */
           changeOrigin: true,
+          pathRewrite: {
+            '^/api': ''
+          }
         },
       },
     }

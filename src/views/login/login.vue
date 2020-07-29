@@ -72,11 +72,10 @@ export default {
     data(){
         
         var validatePass = (rule, value, callback) => {
-            let regex = /^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{7,17}$/
             if (value === '') {
                 callback(new Error('请输入密码'));
             }
-            else if(!regex.test(value)){
+            else if(!validatePassword(value)){
                 callback(new Error('密码格式为8-18位的数字和字母或_,至少包含两项'));
             } 
             else {
@@ -182,9 +181,10 @@ export default {
         .login-wrap{
             width: 330px;
             margin: 0 auto;
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
+            padding-top: 100px;
+            // position: relative;
+            // top: 50%;
+            // transform: translateY(-50%);
             .menu-tab{
                 text-align: center;
                 li{
