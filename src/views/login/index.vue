@@ -38,24 +38,43 @@
               <el-input v-model.number="loginForm.code"></el-input>
             </el-col>
             <el-col :span="8">
-              <el-button type="success" class="get-code" @click="getCode1()">获取验证码</el-button>
+              <el-button type="success" class="get-code" @click="getCode()">获取验证码</el-button>
             </el-col>
           </el-row>
         </el-form-item>
         <el-form-item>
-          <el-button type="danger" class="submit" @click="submitForm('loginForm')">登录</el-button>
+          <el-button type="danger" disabled class="submit" @click="submitForm('loginForm')">{{currentTab==0?'登录':'注册'}}</el-button>
         </el-form-item>
       </el-form>
     </div>
   </div>
 </template>
 <script>
-import {GetCode} from 'api/login'
-import { validatePassword } from "utils/validate";
+import {getSms} from 'api/login'
+import { validatePassword, validateEmail } from "utils/validate";
 import { reactive, ref, isRef, onMounted } from "@vue/composition-api";
 export default {
-  setup(props, context) {
-
+  setup(props, {refs, root}) {
+    /**
+     * console.log(context)
+     * attrs: Object ==this.$attrs
+     *emit: ƒ () ==this.$emit
+      isServer: false == this.$isServer
+      listeners: Object == this.$listeners
+      parent: VueComponent == this.parent
+      refs: Object == this.refs
+      root: Vue == this
+      slots: {}
+     */
+    let validateUsername = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入邮箱地址"));
+      } else if (!validateEmail(value)) {
+        callback(new Error("请输入正确的邮箱地址"));
+      } else {
+        callback();
+      }
+    }
     let validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -66,7 +85,7 @@ export default {
       }
     }
     let validateCode = (rule, value, callback) => {
-      let regex = /^[0-9]{6}$/;
+      let regex = /^[a-z0-9]{6}$/;
       if (!value) {
         callback(new Error("请输入验证码"));
       } else if (!regex.test(value)) {
@@ -101,10 +120,7 @@ export default {
         code: ""
       })
     const loginRules = reactive({
-        email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
-          { type: "email", message: "请输入正确的邮箱地址", trigger: ["blur", "change"] }
-        ],
+        email: [{ validator: validateUsername, trigger: 'blur'}],
         pass: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validateCheckPass, trigger: "blur" }],
         code: [{ validator: validateCode, trigger: "blur" }]
@@ -119,8 +135,24 @@ export default {
     /**
      * 获取验证码
      */
-    const getCode1 = (()=>{
-      GetCode({username:'1289911921@qq.com'});
+    const getCode = (()=>{
+      if(!loginForm.email){
+        root.$message({
+          showClose: true,
+          message: '邮箱不能为空',
+          type: 'error'
+        });
+        return false
+      }
+      if (!validateEmail(loginForm.email)){
+        root.$message({
+          showClose: true,
+          message: '请输入正确的邮箱格式',
+          type: 'error'
+        });
+        return false
+      }
+      getSms({username: loginForm.email});
     })
     /**
      * 提交表单
@@ -144,7 +176,7 @@ export default {
       .catch(err=>{
         console.log(err)
       })
-      // context.refs[formName].validate(valid => {
+      // refs[formName].validate(valid => {
       //   if (valid) {
       //     alert("submit!");
       //   } else {
@@ -167,7 +199,7 @@ export default {
       loginForm,
 
       toggleTab,
-      getCode1,
+      getCode,
       submitForm
 
     };

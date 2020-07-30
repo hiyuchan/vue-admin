@@ -49,13 +49,13 @@ module.exports = {
       hotOnly: false,
       /* 使用代理 */
       proxy: {
-        '/api': {
+        '/devApi': {
           /* 目标代理服务器地址 */
           target: 'http://www.web-jshtml.cn/productapi',
           /* 允许跨域 */
           changeOrigin: true,
           pathRewrite: {
-            '^/api': ''
+            '^/devApi': ''
           }
         },
       },

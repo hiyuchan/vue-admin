@@ -7,3 +7,8 @@ export function validatePassword(value){
     let regexPass = /^(?!^\d+$)(?!^[a-zA-Z]+$)[0-9a-zA-Z]{7,17}$/
     return regexPass.test(value)
 }
+
+export function validateEmail(value){
+    let regexEmail = /[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+    return regexEmail.test(value)
+}
