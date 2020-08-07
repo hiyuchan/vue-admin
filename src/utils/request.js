@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {Message} from 'element-ui'
 
 //创建axios，赋值变量service
 //手把手撸前端API地址: 'http://www.web-jshtml.cn/productapi'
@@ -10,11 +11,9 @@ const service = axios.create({
     
 });
 
-console.log(service.baseURL)
 
 //添加请求拦截器
 service.interceptors.request.use(function(config){
-    console.log(config)
     //在发送之前做些什么
     return config;
 },function(error){
@@ -24,8 +23,12 @@ service.interceptors.request.use(function(config){
 
 //添加请求拦截器
 service.interceptors.response.use(function(response){
+    let data = response.data;
+    if(data.resCode !== 0){
+        Message.error(data.message)
+        return Promise.reject(data)
+    }
     //对响应数据做些什么
-    console.log(response)
     return response;
 },function(error){
     //对响应错误做些什么

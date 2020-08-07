@@ -3,10 +3,10 @@
     <div class="login-wrap">
       <ul class="menu-tab">
         <li
-          :class="{'current-tab': currentTab==index}"
           v-for="(item, index) in menuTab"
           :key="index"
-          @click="toggleTab(index)"
+          :class="{'current-tab': currentTab == item.value}"
+          @click="toggleTab(item)"
         >{{item.text}}</li>
       </ul>
 
@@ -20,22 +20,22 @@
         size="medium "
       >
         <el-form-item prop="email" class="item-form">
-          <label>邮箱</label>
-          <el-input v-model="loginForm.email" autocomplete="off"></el-input>
+          <label for="username">邮箱</label>
+          <el-input id="username" v-model="loginForm.email" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="pass" class="item-form">
-          <label>密码</label>
-          <el-input type="password" v-model="loginForm.pass" autocomplete="off"></el-input>
+          <label for="password">密码</label>
+          <el-input id="password" type="password" v-model="loginForm.pass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="checkPass" class="item-form" v-show="currentTab==1">
-          <label>确认密码</label>
-          <el-input type="password" v-model="loginForm.checkPass" autocomplete="off"></el-input>
+          <label for="checkPass">确认密码</label>
+          <el-input id="checkPass" type="password" v-model="loginForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item class="item-form" prop="code">
-          <label>验证码</label>
+          <label for="code">验证码</label>
           <el-row :gutter="20">
             <el-col :span="16">
-              <el-input v-model.number="loginForm.code"></el-input>
+              <el-input id="code" v-model.number="loginForm.code"></el-input>
             </el-col>
             <el-col :span="8">
               <el-button type="success" class="get-code" @click="getCode()">获取验证码</el-button>
@@ -43,7 +43,7 @@
           </el-row>
         </el-form-item>
         <el-form-item>
-          <el-button type="danger" disabled class="submit" @click="submitForm('loginForm')">{{currentTab==0?'登录':'注册'}}</el-button>
+          <el-button type="danger" :disabled = 'loginButtonStatus' class="submit" @click="submitForm('loginForm')">{{currentTab==0?'登录':'注册'}}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -110,9 +110,10 @@ export default {
     }
 
     //data数据
-    const menuTab = reactive([{ text: "登录" }, { text: "注册" }]);
-    const currentTab = ref(0);
-    
+    const menuTab = reactive([{ text: "登录", value: 'login' }, { text: "注册", value: 'register' }]);
+    const loginButtonStatus = ref(true);  //登录按钮状态
+    const codeButtonStatus = ref(false); //获取验证码按钮状态
+    const currentTab = ref('login');
     const loginForm = reactive({
         email: "",
         pass: "",
@@ -129,8 +130,10 @@ export default {
     
     //methods
 
-    const toggleTab = (index) => {
-      currentTab.value = index;
+    const toggleTab = (item) => {
+      refs['loginForm'].resetFields();
+      currentTab.value = item.value;
+      
     }
     /**
      * 获取验证码
@@ -152,19 +155,22 @@ export default {
         });
         return false
       }
-      getSms({username: loginForm.email});
+      getSms({username: loginForm.email,module: currentTab.value})
+      .then(res =>{
+        let data = res.data;
+        root.$message({
+          message: data.message,
+          type: 'success'
+        })
+      }).catch(err=>{
+        console.log(err)
+      });
     })
     /**
      * 提交表单
      */
     const submitForm = (formName => {
-      // axios.get('/user?id=12345')
-      // .then(res=>{
-      //   console.log(res)
-      // })
-      // .catch(err=>{
-      //   console.log(err)
-      // })
+
 
       axios.post('/user',{
         firstName: "hiyu",
@@ -176,14 +182,6 @@ export default {
       .catch(err=>{
         console.log(err)
       })
-      // refs[formName].validate(valid => {
-      //   if (valid) {
-      //     alert("submit!");
-      //   } else {
-      //     console.log("error submit!!");
-      //     return false;
-      //   }
-      // });
     })
 
     //onMounted
@@ -194,6 +192,7 @@ export default {
 
     return {
       menuTab,
+      loginButtonStatus,
       currentTab,
       loginRules,
       loginForm,
