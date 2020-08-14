@@ -15,6 +15,14 @@ const service = axios.create({
 //添加请求拦截器
 service.interceptors.request.use(function(config){
     //在发送之前做些什么
+    //token
+    //userid
+    //业务需求
+
+    console.log(config.header);
+    config.headers['Token'] = '1111'
+    config.headers['uid'] = '2222'
+    
     return config;
 },function(error){
     //对请求错误做些什么
