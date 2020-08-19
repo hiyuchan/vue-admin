@@ -1,6 +1,12 @@
 @import './normalize.scss';
+@import './elementui.scss';
 
 $theme-color : aqua;
+
+
+/*首页*/
+$header-height: 75px;
+$nav-width : 250px;
 
 
 // body{

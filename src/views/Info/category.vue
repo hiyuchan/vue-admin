@@ -1,6 +1,6 @@
 <template>
     <div id="main-wrap">
-        <h1>adminhahahha</h1>
+        <h1>信息分类</h1>
     </div>
 </template>
 
