@@ -2,13 +2,13 @@
     font-size: 14px;
     text-indent: 1em;
     &.is-active{
-        background-color: #491b13 !important;
+        background-color: #fd8873 !important;
         color: #FFF;
     }
 }
 /**修改一级菜单*/
 .el-submenu {
     &.is-active.is-opened .el-submenu__title{
-        background-color: #b60c14 !important;
+        background-color: #f3414a !important;
     }
 }

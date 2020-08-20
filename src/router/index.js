@@ -19,7 +19,7 @@ const routes = [
     meta:{
       name: "登录"
     },
-    component: ()=> import("../views/login/index.vue")
+    component: ()=> import("../views/Login/index.vue")
   },
   {
     path: "/layout",
@@ -27,7 +27,7 @@ const routes = [
     meta:{
       name: "控制台"
     },
-    component: ()=> import("../views/layout/index.vue"),
+    component: ()=> import("../views/Layout/index.vue"),
     children:[
       {
         path: "/layout",
@@ -35,7 +35,7 @@ const routes = [
         meta:{
           name: "首页"
         },
-        component: ()=> import("../views/admin/index.vue"),
+        component: ()=> import("../views/Admin/index.vue"),
       }
     ]
   },
@@ -45,7 +45,7 @@ const routes = [
     meta:{
       name: "信息管理"
     },
-    component: ()=> import("../views/layout/index.vue"),
+    component: ()=> import("../views/Layout/index.vue"),
     children:[
       {
         path: "/infoList",
@@ -72,7 +72,7 @@ const routes = [
     meta:{
       name: "用户管理"
     },
-    component: ()=> import("../views/layout/index.vue"),
+    component: ()=> import("../views/Layout/index.vue"),
     children:[
       {
         path: "/userList",
