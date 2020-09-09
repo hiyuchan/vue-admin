@@ -1,12 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import LayoutIndex from "@/views/Layout/index.vue"
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    redirect: "/login",
+    redirect: "/layout",
     hidden: true,
     meta:{
       name: "主页"
@@ -25,9 +26,10 @@ const routes = [
     path: "/layout",
     name: "Layout",
     meta:{
-      name: "控制台"
+      name: "控制台",
+      icon: "admin"
     },
-    component: ()=> import("../views/Layout/index.vue"),
+    component: LayoutIndex,
     children:[
       {
         path: "/layout",
@@ -43,9 +45,10 @@ const routes = [
     path: "/info",
     name: "Info",
     meta:{
-      name: "信息管理"
+      name: "信息管理",
+      icon: "info"
     },
-    component: ()=> import("../views/Layout/index.vue"),
+    component: LayoutIndex,
     children:[
       {
         path: "/infoList",
@@ -70,9 +73,10 @@ const routes = [
     path: "/user",
     name: "User",
     meta:{
-      name: "用户管理"
+      name: "用户管理",
+      icon: "user"
     },
-    component: ()=> import("../views/Layout/index.vue"),
+    component: LayoutIndex,
     children:[
       {
         path: "/userList",

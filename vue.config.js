@@ -1,4 +1,5 @@
 const path = require('path')
+const { config } = require('process')
 module.exports = {
     /* 部署生产环境和开发环境下的URL：可对当前环境进行区分，baseUrl 从 Vue CLI 3.3 起已弃用，要使用publicPath */
     publicPath: process.env.NODE_ENV === 'production' ? '/public/' : '/',
@@ -12,11 +13,23 @@ module.exports = {
     filenameHashing: false,
     /* 代码保存时进行eslint检测 */
     lintOnSave: false,
+    chainWebpack: (config) =>{
+      const svgRule = config.module.rule('svg')
+      // 清除已有的所有 loader,如果你不这样做，接下来的 loader 会附加在该规则现有的 loader 之后。
+      svgRule.uses.clear()
+      // 添加要替换的 loader
+      svgRule.use('svg-sprite-loader').loader('svg-sprite-loader')
+      .options({
+          symbolId: 'icon-[name]',
+          include: ["./src/icons"]
+      })
+    },
     /* 注意sass，scss，less的配置 */
     configureWebpack: (config)=>{
       config.resolve={
         extensions: ['.js', '.json','.vue'],//自动添加后缀名
         alias:{
+          'vue': 'vue/dist/vue.js',
           '@':path.resolve(__dirname,'./src'),
           'public':path.resolve(__dirname,'./public'),
           'components':path.resolve(__dirname,'./src/components'),

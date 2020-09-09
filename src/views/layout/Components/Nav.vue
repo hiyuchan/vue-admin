@@ -3,8 +3,6 @@
     <el-menu
       default-active="1-4-1"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       :collapse="isCollapse"
       background-color="transparent"
       text-color="#fff"
@@ -13,7 +11,7 @@
         <template v-for="(item,index) in routers">
             <el-submenu v-if="!item.hidden" :key="index" :index="item.path">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
+                    <svg-icon :iconName="item.meta.icon"></svg-icon>
                     <span slot="title">{{item.meta.name}}</span>
                 </template>
                 <el-menu-item v-for="subItem in item.children" :key="subItem.id" :index="subItem.path" >{{ subItem.meta.name }}</el-menu-item>
@@ -24,30 +22,32 @@
 </template>
 
 <script>
-import { reactive, ref, isRef, onMounted } from "@vue/composition-api";
+import { reactive, ref, isRef, onMounted, computed } from "@vue/composition-api";
 export default {
   setup(props, { root }) {
     /**
      * data
      */
     const routers = reactive(root.$router.options.routes);
-    console.log(routers)
-    const isCollapse = ref(false);
+
+    /**
+     * computed
+     */
+    const isCollapse = computed(()=>root.$store.state.isCollapse);
 
     /**
      * methods
      */
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
+    // const handleOpen = (key, keyPath) => {
+    //   console.log(key, keyPath);
+    // };
+    // const handleClose = (key, keyPath) => {
+    //   console.log(key, keyPath);
+    // };
+
     return {
       routers,
       isCollapse,
-      handleOpen,
-      handleClose
     };
   }
 };
@@ -61,5 +61,18 @@ export default {
   height: 100vh;
   width: $nav-width;
   background-color: #344a5f;
+  -webkit-transition: all .3s ease 0s;
+  -moz-transition: all .3s ease 0s;
+  -o-transition: all .3s ease 0s;
+  -ms-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+}
+.open{
+  #nav-warp{  width: $nav-width; }
+}
+.close{
+  #nav-warp{
+    width: 64px;
+  }
 }
 </style>
