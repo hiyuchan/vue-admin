@@ -32,6 +32,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.close{
+    #header-warp{
+        left: $close-nav-width;
+        @include webkit(transition, all .3s ease 0s);
+    }
+}
     #header-warp{
         position: fixed;
         top: 0;
@@ -40,7 +46,8 @@ export default {
         height: $header-height;
         line-height: $header-height;
         background-color: #fff;
-        box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 1)
+        @include webkit(box-shadow, 0 3px 16px 0 rgba(0, 0, 0, 1));
+        @include webkit(transition, all .3s ease 0s);
     }
     .header-icon{
         padding: 0 32px;

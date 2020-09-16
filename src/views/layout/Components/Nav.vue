@@ -61,18 +61,14 @@ export default {
   height: 100vh;
   width: $nav-width;
   background-color: #344a5f;
-  -webkit-transition: all .3s ease 0s;
-  -moz-transition: all .3s ease 0s;
-  -o-transition: all .3s ease 0s;
-  -ms-transition: all .3s ease 0s;
-  transition: all .3s ease 0s;
+  @include webkit(transition, all .3s ease 0s);
 }
 .open{
   #nav-warp{  width: $nav-width; }
 }
 .close{
   #nav-warp{
-    width: 64px;
+    width: $close-nav-width;
   }
 }
 </style>

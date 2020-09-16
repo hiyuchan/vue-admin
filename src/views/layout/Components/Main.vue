@@ -13,27 +13,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    // #main-wrap{
-    //     position: fixed;
-    //     top: $header-height;
-    //     left: $nav-width;
-    //     bottom: 0;
-    //     right: 0;
-    //     border: 30px solid #f7f7f7;
-    //     border-bottom: none;
-    //     // padding: $header-height 0 0 $nav-width;
-    //     background-color: #fff;
-    //     box-sizing: border-box;
-    //     }
+    .close{
+        #main-content{
+            padding-left: $close-nav-width + 30px;
+            @include webkit(transition, all .3s ease 0s)
+        }
+    }
     #main-content{
         width: 100%;
         height: 100%;
         padding-top: $header-height + 30px;
         padding-left: $nav-width + 30px;
-            padding-right: 30px;
+        padding-right: 30px;
         box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        // overflow: hidden;
+        @include webkit(box-sizing, border-box);
+        @include webkit(transition, all .3s ease 0s);
         .content{
             background: #fff;
             width: 100%;
@@ -42,7 +36,7 @@ export default {
             padding-left:30px;
             padding-right: 30px;
             box-sizing: border-box;
-            -webkit-box-sizing: border-box; 
+            @include webkit(box-sizing, border-box);
         }
     }
 </style>

@@ -14,6 +14,14 @@ $theme-color : aqua;
 /*首页*/
 $header-height: 75px;
 $nav-width : 250px;
+$close-nav-width : 64px;
+@mixin webkit($type,$value){
+-webkit-#{$type} : $value;
+-moz-#{$type} : $value;
+-o-#{$type} : $value;
+-ms-#{$type} : $value;
+#{$type} : $value;
+} 
 
 
 // body{
