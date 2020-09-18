@@ -215,11 +215,13 @@ export default {
             Login(data)
               .then(res => {
                 let data = res.data;
+                //存起TOKEN
+                localStorage.setItem('TOKEN',data.data.username)
                 root.$message({
                   message: data.message,
                   type: "success"
                 });
-                root.$router.push({name:'Admin'})
+                root.$router.push({name:'Layout'})
               })
               .catch(err => {
                 console.log(err);
