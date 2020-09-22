@@ -1,5 +1,6 @@
 import router from "./index";
-import {getToken} from "../utils/kit.js"
+import {getToken, removeToken, removeUsername} from "../utils/kit.js"
+import store from '../store/index.js'
 
 const writeRouter = ['/login'];
 //路由守卫
@@ -12,9 +13,18 @@ const writeRouter = ['/login'];
  */
 router.beforeEach((to, from, next) =>{
     if(getToken()){
-        console.log("存在用户");
+        if(to.path == '/login'){
+            // 清空本地存储的token
+            removeToken();
+            removeUsername();
+            // 清空vuex的token
+            store.commit('app/SET_TOKEN','');
+            store.commit('app/SET_USERNMAE','');
+            next();
+        }else{
+            next();
+        }
     }else{
-        console.log("不存在用户");
         if(writeRouter.indexOf(to.path) !== -1){
             next();
         }else{

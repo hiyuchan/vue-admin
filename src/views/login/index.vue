@@ -201,7 +201,7 @@ export default {
     };
 
     /**
-     * 提交表单
+     * 提交表单/登录
      */
     const submitForm = formName => {
       refs["loginForm"].validate(valid => {
@@ -212,20 +212,33 @@ export default {
             code: loginForm.code
           };
           if (currentTab.value == "login") {
-            Login(data)
-              .then(res => {
-                let data = res.data;
-                //存起TOKEN
-                localStorage.setItem('TOKEN',data.data.username)
-                root.$message({
+            root.$store.dispatch('app/login', data).then((res) =>{
+              let data = res.data;
+               root.$message({
                   message: data.message,
                   type: "success"
                 });
-                root.$router.push({name:'Layout'})
-              })
-              .catch(err => {
-                console.log(err);
-              });
+              root.$router.push({name:'Layout'});
+            }).catch((err) =>{
+              console.log('登录失败')
+            })
+            // Login(data)
+            //   .then(res => {
+            //     let data = res.data;
+            //     //存起TOKEN
+            //     setToken(data.data.token);
+            //     setUsername(data.data.username)
+            //     // localStorage.setItem('USERNAME',data.data.username);
+            //     // localStorage.setItem('TOKEN',data.data.token);
+            //     root.$message({
+            //       message: data.message,
+            //       type: "success"
+            //     });
+            //     root.$router.push({name:'Layout'})
+            //   })
+            //   .catch(err => {
+            //     console.log(err);
+            //   });
           } else {
             Register(data)
               .then(res => {

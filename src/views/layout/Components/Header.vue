@@ -3,9 +3,9 @@
         <div class="pull-left header-icon" @click="triggerCollapse"><svg-icon  iconName="menu" iconClass="menu"></svg-icon></div>
         <div class="pull-right">
             <div class="user-info pull-left">
-                <svg-icon iconName="headimg" iconClass="menu"></svg-icon>管理员
+                <svg-icon iconName="headimg" iconClass="menu"></svg-icon>{{username}}
             </div>
-            <div class="header-icon pull-left">
+            <div class="header-icon pull-left" @click="loginOut">
                 <svg-icon iconName="exit" iconClass="exit"></svg-icon>
             </div>
         </div>
@@ -14,16 +14,34 @@
 </template>
 
 <script>
-import { reactive, ref, isRef, onMounted } from "@vue/composition-api";
+import { reactive, ref, isRef, onMounted, computed } from "@vue/composition-api";
 export default {
     setup(props, { root }){
+
+        /**
+         * data
+         */
+        const username = computed(()=>root.$store.state.app.USER_NAME);
+
         const triggerCollapse = ()=>{
-            root.$store.commit('SET_isCollapse');
+            root.$store.commit('app/SET_isCollapse');
+        }
+        
+        /**
+         * methods
+         */
+        
+        const loginOut = () =>{
+            root.$store.dispatch('app/loginOut').then(()=>{
+                root.$router.push({name: 'Login'})
+            }).catch(()=>{})
         }
 
 
         return{
-            triggerCollapse
+            triggerCollapse,
+            username,
+            loginOut
         }
     }
 

@@ -19,7 +19,7 @@ service.interceptors.request.use(function(config){
     //userid
     //业务需求
 
-    console.log(config.header);
+    // console.log(config.header);
     config.headers['Token'] = '1111'
     config.headers['uid'] = '2222'
     

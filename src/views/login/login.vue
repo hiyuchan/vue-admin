@@ -68,6 +68,7 @@
 </template>
 <script>
 import { validatePhone } from 'utils/validate';
+import { setToken, setUsername } from 'utils/kit';
 export default {
     data(){
         

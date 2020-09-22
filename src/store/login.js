@@ -1,6 +1,6 @@
 const login = {
     state: {
-
+        
     },
     getters: {},
     mutations: {},
