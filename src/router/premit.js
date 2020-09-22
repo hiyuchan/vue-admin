@@ -20,6 +20,7 @@ router.beforeEach((to, from, next) =>{
             // 清空vuex的token
             store.commit('app/SET_TOKEN','');
             store.commit('app/SET_USERNMAE','');
+            //获取用户角色/权限
             next();
         }else{
             next();
