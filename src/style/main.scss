@@ -21,9 +21,23 @@ $close-nav-width : 64px;
 -o-#{$type} : $value;
 -ms-#{$type} : $value;
 #{$type} : $value;
-} 
+}
 
+@mixin labelDom($align, $width, $line-height: 'normal'){
+    label{
+        float: left;
+        line-height: $line-height + px;
+        width: $width + px;
+        text-align: $align;
+    }
+    .label-content{
+        margin-left: $width + px;
+    }
+}
 
+.block-space-30{
+    height: 30px;
+}
 // body{
 //     background-color: red;
 // }

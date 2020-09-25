@@ -1,5 +1,6 @@
 <template>
   <div id="nav-warp">
+    <img src="@/assets/logo.png" alt="">
     <el-menu
       default-active="1-4-1"
       class="el-menu-vertical-demo"
@@ -60,15 +61,26 @@ export default {
   left: 0;
   height: 100vh;
   width: $nav-width;
-  background-color: #344a5f;
+  background-color: #51585f;
   @include webkit(transition, all .3s ease 0s);
 }
 .open{
-  #nav-warp{  width: $nav-width; }
+  #nav-warp{  width: $nav-width; 
+    img{
+      width: 60%;
+      margin: 20px auto;
+      @include webkit(transition, all .3s ease 0s);
+    }
+  }
 }
 .close{
   #nav-warp{
     width: $close-nav-width;
+    img{
+      width: 60%;
+      margin: 20px auto;
+      @include webkit(transition, all .3s ease 0s);
+    }
   }
 }
 </style>

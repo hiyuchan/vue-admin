@@ -6,13 +6,41 @@
     font-size: 14px;
     text-indent: 1em;
     &.is-active{
-        background-color: #fd8873 !important;
+        background-color: #0ba8f1 !important;
         color: #FFF;
     }
 }
 /**修改一级菜单*/
 .el-submenu {
     &.is-active.is-opened .el-submenu__title{
-        background-color: #f3414a !important;
+        background-color: #0c5c929f !important;
     }
+}
+
+// 收缩后的导肮目录
+.el-menu--vertical{
+    .el-menu{
+        background-color:#e918189f !important;
+        .el-menu-item:hover{
+            background-color: #136bdd9f !important;
+        }
+    }
+}
+
+/**
+* 信息列表的table
+**/
+.el-table .cell{
+    padding-left: 10px;
+    text-align: center !important;
+    
+}
+.el-table thead {
+    color:#000 !important;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.el-form-item {
+    margin-bottom: 22px !important;
 }

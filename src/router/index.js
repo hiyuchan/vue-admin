@@ -33,7 +33,7 @@ const routes = [
     children:[
       {
         path: "/layout",
-        name: "Layout",
+        name: "",
         meta:{
           name: "首页"
         },
