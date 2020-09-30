@@ -8,8 +8,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './icons'
 import './router/premit'
 // import './utils/kit.js'
+//全局方法
+import global from './utils/global.js'
 
 Vue.use(ElementUI)
+Vue.use(global)
 Vue.use(VueCompositionApi);
 Vue.config.productionTip = false;
 

@@ -28,9 +28,13 @@ export default {
 
 <style lang="scss" scoped>
    #layout{
-        height: 100vh;
+       
+        min-height: 100vh;
+        max-height: 100%;
+        
         background-color: #ededed;
         overflow: hidden;
+        @include webkit(box-sizing, border-box);
    }
 
 </style>

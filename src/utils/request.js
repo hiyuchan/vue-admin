@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {Message} from 'element-ui'
+import {getToken, getUsername} from './kit.js'
 
 //创建axios，赋值变量service
 //手把手撸前端API地址: 'http://www.web-jshtml.cn/productapi'
@@ -20,8 +21,9 @@ service.interceptors.request.use(function(config){
     //业务需求
 
     // console.log(config.header);
-    config.headers['Token'] = '1111'
-    config.headers['uid'] = '2222'
+
+    config.headers['tokey'] = getToken();
+    config.headers['username'] = getUsername();
     
     return config;
 },function(error){

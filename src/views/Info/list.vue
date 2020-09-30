@@ -34,7 +34,7 @@
                     <div class="label-warp keyword">
                     <label>关键字：</label>
                     <div class="label-content">
-                        <el-select v-model="key_word" placeholder="请选择" style="width: 100%">
+                        <el-select v-model="key_word" placeholder="请选择" style="width: 80%">
                             <el-option v-for="item in keyOption"
                             :key="item.value"
                             :label="item.label" 
@@ -45,7 +45,7 @@
             </el-col>
 
             <el-col :span="3">
-                    <el-input v-model="key_word" placeholder="请输入内容" style="width: 100%"></el-input>
+                    <el-input v-model="key_content" placeholder="请输入内容" style="width: 100%"></el-input>
             </el-col>
             <el-col :span="2">
                     <el-button type="danger" style="width: 100%">搜索</el-button>
@@ -69,7 +69,7 @@
             <el-table-column label="操作">
                 <div>
                     <el-button type="success" size="mini">编辑</el-button>
-                    <el-button type="danger" size="mini">删除</el-button>
+                    <el-button type="danger" size="mini" @click="deleteItem">删除</el-button>
                 </div>
             </el-table-column>
         </el-table>
@@ -77,7 +77,10 @@
         <!-- 底部 -->
         <div>
             <el-row>
-                <el-col :span="8"> <el-button type="danger" size="middle">批量删除</el-button></el-col>
+                <el-col :span="8"> <el-button type="danger" size="middle" @click="deleteAll">批量删除</el-button>
+                <el-button type="danger" size="mini" @click="deleteAll1">批量删除</el-button>
+                <el-button type="danger" size="mini" @click="checkglobal">删除111</el-button>
+                <el-button type="danger" size="mini" @click="checkglobal1">删除222</el-button></el-col>
                 <el-col :span="16">
                     <el-pagination
                         class="pull-right"
@@ -87,7 +90,7 @@
                         :current-page="currentPage"
                         :page-sizes="[5,10, 20]"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="100">
+                        :total="100">count
                     </el-pagination>
                 </el-col>
             </el-row>
@@ -99,15 +102,20 @@
 
 <script>
 import AddList from "./dialog/addList"
-import { reactive, ref, isRef, onMounted } from "@vue/composition-api";
+import { $confirm1 } from "../../utils/validate.js"
+import { global } from "../../utils/global3.0.js"
+import { reactive, ref, isRef, onMounted, watch } from "@vue/composition-api";
 export default {
     components:{
         AddList
     },
-    setup(){
+    setup(props,{root}){
         /**
          * data
          */
+        const {str: aaa, confirm: bbb} = global();
+        const {str: ccc, confirm: ddd} = global();
+
         const cate = ref('')
         const cateOption = reactive([
             {value: 1, label: '国际信息1'},
@@ -115,6 +123,7 @@ export default {
             {value: 3, label: '国际信息3'},
         ])
         const key_word = ref('ID')
+        const key_content = ref('')
         const keyOption = reactive([
             {value: 1, label: 'ID'},
             {value: 2, label: '标签'}
@@ -139,27 +148,8 @@ export default {
                 date: '2020-09-18',
                 user: '管理员',
             },
-            // {
-            //     title:'广州市天河区',
-            //     cate: '国内信息',
-            //     date: '2020-09-18',
-            //     user: '管理员',
-            // },
-            // {
-            //     title:'广州市天河区',
-            //     cate: '国内信息',
-            //     date: '2020-09-18',
-            //     user: '管理员',
-            // },
-            // {
-            //     title:'广州市天河区',
-            //     cate: '国内信息',
-            //     date: '2020-09-18',
-            //     user: '管理员',
-            // }
         ])
 
-        
         const dialogTableVisible = ref(false)
         const currentPage = ref(1)
 
@@ -179,14 +169,87 @@ export default {
         const openDialog = ()=>{
             dialogTableVisible.value = true;
         }
+        const deleteItem = (()=>{
+            root.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                root.$message({
+                type: 'success',
+                message: '删除成功!'
+                });
+            }).catch(() => {
+                root.$message({
+                type: 'info',
+                message: '已取消删除'
+                });
+            });
+        })
+        /**
+         * 测试全局方法
+         */
+        const deleteAll = (()=>{
+            root.$confirm({
+                content:'是否删除当前信息？',
+                tip: "提示",
+                type: 'warning',
+                id:'1111',
+                fn: confirmdelete
+            })
+        })
+        /**
+         * 测试单独调用
+         */
+        const deleteAll1 = (()=>{
+            root.$confirm({
+                content:'是否删除当前信息？',
+                tip: "提示",
+                type: 'warning',
+                // id:'1111',
+                fn: confirmdelete
+            })
+        })
+
+        /**
+         * 测试3.0的全局
+         */
+        watch(()=> console.log(aaa.value),(aaa,preaaa)=>{
+            console.log(aaa)
+        });
+        watch(()=> console.log(ccc.value));
+        const checkglobal = ()=>{
+             bbb({
+                content:'是否删除当前信息？',
+                tip: "提示",
+                type: 'warning',
+                id:'1111',
+                fn: confirmdelete
+            });
+        }
+        const checkglobal1 = ()=>{
+             ddd({
+                content:'是否删除当前信息？',
+                tip: "提示",
+                type: 'warning',
+                id:'222',
+                fn: confirmdelete
+            });
+        }
+
+        const confirmdelete = ((value)=>{
+            console.log(`已删除${value}`)
+        })
+
         return{
             //data
-            cate, cateOption, time, key_word, keyOption, tableData, currentPage, dialogTableVisible,
-            // dialogTableVisible,
-            // formLabelAlign,
+            cate,  time, key_word, currentPage, dialogTableVisible,key_content,
+            //reactive
+            cateOption,  keyOption, tableData,
             //methods
-            handleSelectionChange, handleSizeChange, handleCurrentChange, openDialog
-        }
+            handleSelectionChange, handleSizeChange, handleCurrentChange, openDialog,deleteItem, deleteAll, deleteAll1,checkglobal,checkglobal1
+        }  
     }
 }
 </script>

@@ -40,7 +40,26 @@
     font-size: 15px;
     font-weight: bold;
 }
-
+.el-form{
+    .el-form-item:last-child {
+        margin-bottom: 0 !important;
+    }
+}
 .el-form-item {
     margin-bottom: 22px !important;
+}
+
+/*dialog**/
+.el-dialog__body{
+    padding: 30px 47px !important;
+}
+.dialog-footer{
+    text-align: center !important;
+    padding-bottom: 20px !important;
+    .el-button{
+        width: 150px;
+        +.el-button {
+            margin-left: 50px;
+        }
+    }
 }
