@@ -4,7 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.AddFirstCategory = AddFirstCategory;
+exports.AddSecondCategory = AddSecondCategory;
 exports.GetCategoryAll = GetCategoryAll;
+exports.DeleteCategory = DeleteCategory;
+exports.EditCategory = EditCategory;
 
 var _request = _interopRequireDefault(require("utils/request"));
 
@@ -20,6 +23,14 @@ function AddFirstCategory(data) {
     data: data
   });
 }
+
+function AddSecondCategory(data) {
+  return _request["default"].request({
+    method: 'post',
+    url: '/news/addChildrenCategory/',
+    data: data
+  });
+}
 /**
  * 获取分类列表·
  */
@@ -29,6 +40,30 @@ function GetCategoryAll(data) {
   return _request["default"].request({
     method: 'post',
     url: '/news/getCategoryAll/',
+    data: data
+  });
+}
+/**
+ * 删除分类
+ */
+
+
+function DeleteCategory(data) {
+  return _request["default"].request({
+    method: 'post',
+    url: '/news/deleteCategory/',
+    data: data
+  });
+}
+/**
+ * 编辑分类
+ */
+
+
+function EditCategory(data) {
+  return _request["default"].request({
+    method: 'post',
+    url: '/news/editCategory/',
     data: data
   });
 }

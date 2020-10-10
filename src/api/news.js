@@ -10,6 +10,14 @@ export function AddFirstCategory(data){
         data: data
     })
 }
+
+export function AddSecondCategory(data){
+    return service.request({
+        method: 'post',
+        url: '/news/addChildrenCategory/',
+        data
+    })
+}
 /**
  * 获取分类列表·
  */
@@ -21,3 +29,23 @@ export function AddFirstCategory(data){
          data
      })
  }
+/**
+ * 删除分类
+ */
+export function DeleteCategory(data){
+    return service.request({
+        method: 'post',
+        url: '/news/deleteCategory/',
+        data
+    })
+}
+/**
+ * 编辑分类
+ */
+export function EditCategory(data){
+    return service.request({
+        method: 'post',
+        url: '/news/editCategory/',
+        data
+    })
+}

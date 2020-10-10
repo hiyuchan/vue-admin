@@ -19,8 +19,8 @@ function global() {
       type: params.type || "warning",
       center: true
     }).then(function () {
-      str.value = "这是" + params.id;
-      params.fn && params.fn(params.id);
+      str.value = params.data || '';
+      params.fn && params.fn(params.id || '');
     })["catch"](function () {});
   };
 
