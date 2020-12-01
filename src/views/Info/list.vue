@@ -3,13 +3,13 @@
         <el-row :gutter="16">
             <el-col :span="4">
                 <div class="label-warp category">
-                    <label>类型：</label>
+                    <label>分类</label>
                     <div class="label-content">
                         <el-select v-model="cate" placeholder="请选择" style="width: 100%">
-                            <el-option v-for="item in cateOption" 
-                            :key="item.value" 
-                            :label="item.label" 
-                            :value="item.value"></el-option>
+                            <el-option v-for="item in cateOption.category" 
+                            :key="item.id" 
+                            :label="item.category_name" 
+                            :value="item.id"></el-option>
                         </el-select>
                     </div>
                 </div>
@@ -78,9 +78,10 @@
         <div>
             <el-row>
                 <el-col :span="8"> <el-button type="danger" size="middle" @click="deleteAll">批量删除</el-button>
-                <el-button type="danger" size="mini" @click="deleteAll1">批量删除</el-button>
+                <!-- <el-button type="danger" size="mini" @click="deleteAll1">批量删除</el-button>
                 <el-button type="danger" size="mini" @click="checkglobal">删除111</el-button>
-                <el-button type="danger" size="mini" @click="checkglobal1">删除222</el-button></el-col>
+                <el-button type="danger" size="mini" @click="checkglobal1">删除222</el-button> -->
+                </el-col>
                 <el-col :span="16">
                     <el-pagination
                         class="pull-right"
@@ -96,7 +97,7 @@
             </el-row>
         </div>
         <!--dialog-->
-        <add-list :flag.sync="dialogTableVisible"/>
+        <add-list :flag.sync="dialogTableVisible" :category="cateOption.category"/>
     </div>
 </template>
 
@@ -104,6 +105,8 @@
 import AddList from "./dialog/addList"
 import { $confirm1 } from "../../utils/validate.js"
 import { global } from "../../utils/global3.0.js"
+import { common } from "api/common" //获取分类
+import { AddInfo } from "api/news"
 import { reactive, ref, isRef, onMounted, watch } from "@vue/composition-api";
 export default {
     components:{
@@ -115,13 +118,12 @@ export default {
          */
         const {str: aaa, confirm: bbb} = global();
         const {str: ccc, confirm: ddd} = global();
+        const {categoryInfo, getCategoryInfo } = common();
 
         const cate = ref('')
-        const cateOption = reactive([
-            {value: 1, label: '国际信息1'},
-            {value: 2, label: '国际信息2'},
-            {value: 3, label: '国际信息3'},
-        ])
+        const cateOption = reactive({
+            category:[]
+        })
         const key_word = ref('ID')
         const key_content = ref('')
         const keyOption = reactive([
@@ -215,40 +217,50 @@ export default {
         /**
          * 测试3.0的全局
          */
-        watch(()=> console.log(aaa.value),(aaa,preaaa)=>{
-            console.log(aaa)
-        });
-        watch(()=> console.log(ccc.value));
-        const checkglobal = ()=>{
-             bbb({
-                content:'是否删除当前信息？',
-                tip: "提示",
-                type: 'warning',
-                id:'1111',
-                fn: confirmdelete
-            });
-        }
-        const checkglobal1 = ()=>{
-             ddd({
-                content:'是否删除当前信息？',
-                tip: "提示",
-                type: 'warning',
-                id:'222',
-                fn: confirmdelete
-            });
-        }
+        // watch(()=> console.log(aaa.value),(aaa,preaaa)=>{
+        //     // console.log(aaa)
+        // });
+        // watch(()=> console.log(ccc.value));
+        // const checkglobal = ()=>{
+        //      bbb({
+        //         content:'是否删除当前信息？',
+        //         tip: "提示",
+        //         type: 'warning',
+        //         id:'1111',
+        //         fn: confirmdelete
+        //     });
+        // }
+        // const checkglobal1 = ()=>{
+        //      ddd({
+        //         content:'是否删除当前信息？',
+        //         tip: "提示",
+        //         type: 'warning',
+        //         id:'222',
+        //         fn: confirmdelete
+        //     });
+        // }
 
-        const confirmdelete = ((value)=>{
-            console.log(`已删除${value}`)
+        // const confirmdelete = ((value)=>{
+        //     console.log(`已删除${value}`)
+        // })
+
+        onMounted(()=>{
+            getCategoryInfo()
         })
 
+        /**
+         * watch
+         */
+        watch(()=>categoryInfo.item,(value)=>{
+            cateOption.category = value
+        })
         return{
             //data
             cate,  time, key_word, currentPage, dialogTableVisible,key_content,
             //reactive
             cateOption,  keyOption, tableData,
             //methods
-            handleSelectionChange, handleSizeChange, handleCurrentChange, openDialog,deleteItem, deleteAll, deleteAll1,checkglobal,checkglobal1
+            handleSelectionChange, handleSizeChange, handleCurrentChange, openDialog,deleteItem, deleteAll
         }  
     }
 }

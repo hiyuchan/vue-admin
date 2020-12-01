@@ -1,8 +1,20 @@
 import service from 'utils/request'
+
+/**
+ * 新增列表信息 
+ */
+export function AddInfo(data){
+    return service.request({
+        method: "post",
+        url: "/news/add/",
+        data
+    })
+}
+
+
 /**
  * 添加一级分类
  */
-
 export function AddFirstCategory(data){
     return service.request({
         method:"post",
@@ -18,10 +30,10 @@ export function AddSecondCategory(data){
         data
     })
 }
+
 /**
  * 获取分类列表·
  */
-
  export function GetCategoryAll(data){
      return service.request({
          method: 'post',

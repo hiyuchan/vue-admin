@@ -31,13 +31,13 @@
                 </div>
               </h4>
               <ul v-if="firstItem.children">
-                <li v-for="child in firstItem.children" :key="child.id">
-                  {{ child.category_name }}
-                  <div class="button-group">
-                    <el-button type="success" size="mini" round>编辑</el-button>
-                    <el-button type="danger" size="mini" round>删除</el-button>
-                  </div>
-                </li>
+                  <!-- <li v-for="child in firstItem.children" :key="child.id">
+                    {{ child.category_name }}
+                    <div class="button-group">
+                      <el-button type="success" size="mini" round>编辑</el-button>
+                      <el-button type="danger" size="mini" round>删除</el-button>
+                    </div>
+                  </li> -->
               </ul>
             </div>
             <!-- <div class="category">
@@ -124,16 +124,17 @@
 
 <script>
 import { reactive, ref, watch, onMounted } from "@vue/composition-api";
+import { common } from "api/common";//获取分类
 import {
   AddFirstCategory,
   AddSecondCategory,
-  GetCategoryAll,
   DeleteCategory,
   EditCategory, 
 } from "api/news";
 import { global } from "../../utils/global3.0.js";
 export default {
   setup(prop, { refs, root }) {
+    const {categoryInfo, getCategoryInfo } = common();
     const { confirm } = global();
     const formData = reactive({
       first: "",
@@ -144,7 +145,15 @@ export default {
     const submit_loading = ref(false);
     const submit_button_type = ref('');
     const category = reactive({
-      item: [],
+      item: [
+        {category_name: "111", id: "2804", parent_id: null},
+        {category_name: "233332", id: "2800", parent_id: null,
+          children: [
+            {id: "2801", parent_id: "2800", category_name: "32"},
+            {id: "2801", parent_id: "2800", category_name: "32"}
+            ]
+        }
+      ],
       currentItem: []
     });
     const firstDisable = ref(true);
@@ -227,7 +236,8 @@ export default {
           });
         //   category.item.unshift(data.data);
         let index = category.item.findIndex((el)=>el.id == item.id);
-        category.item[index].children = data.data
+        category.item[index].children = [...data.data]
+        console.log(category.item[index].children)
         
         submit_loading.value = false;
         formData.second = "";
@@ -237,11 +247,12 @@ export default {
           console.log(err);
         });
     }
-    const GetCategory = () => {
-      GetCategoryAll().then(res => {
-        category.item = res.data.data;
-      });
-    };
+    // const GetCategory = () => {
+    //   GetCategoryAll().then(res => {
+    //     category.item = res.data.data;
+    //     console.log(category.item)
+    //   });
+    // };
 
     const deleteCategory = id => {
       confirm({
@@ -271,9 +282,16 @@ export default {
     /**
      * onMounted
      */
-    onMounted(() => {
-      GetCategory();
-    });
+     onMounted(()=>{
+            getCategoryInfo()
+        })
+
+    /**
+     * watch
+     */
+    watch(()=>categoryInfo.item,(value)=>{
+        category.item = value
+    })
     return {
       /** ref */
       addFirst,

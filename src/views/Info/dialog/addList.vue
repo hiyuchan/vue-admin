@@ -1,12 +1,12 @@
 <template>
-    <el-dialog title="新增" :visible.sync="dialogTableVisible" width="580px" @close="close">
+    <el-dialog title="新增" :visible.sync="dialogTableVisible" width="580px" @close="close" @open="openDialog">
         <el-form label-position="right" label-width="60px" :model="listForm">
             <el-form-item label="类型"> 
                 <el-select v-model="listForm.cate" placeholder="请选择" style="width: 50%">
-                    <el-option v-for="item in cateOption" 
-                    :key="item.value" 
-                    :label="item.label" 
-                    :value="item.value"></el-option>
+                    <el-option v-for="item in cateOption.category" 
+                    :key="item.id" 
+                    :label="item.category_name" 
+                    :value="item.id"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="标题">
@@ -18,11 +18,12 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
                 <el-button @click="close">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                <el-button type="primary" @click="submit">确 定</el-button>
             </div>
     </el-dialog>
 </template>
 <script>
+import { AddInfo } from "api/news"
 import { reactive, ref, watch } from '@vue/composition-api'
 export default {
     name: "AddList",
@@ -30,6 +31,10 @@ export default {
         flag:{
             type: Boolean,
             defauls: false
+        },
+        category:{
+            type: Array,
+            default: ()=>[]
         }
     },
     setup(props, {root, emit}){
@@ -38,22 +43,32 @@ export default {
          */
         const dialogTableVisible = ref(false)
         const listForm = reactive({
+            categoryId:'',
             title:'',
-            cate:'',
-            date: '',
-            user: '',
+            imgUrl: '',
+            createDate: '',
+            status: '',
             content: ''
         })
         // const cate = ref('')
-        const cateOption = reactive([
-            {value: 1, label: '国际信息1'},
-            {value: 2, label: '国际信息2'},
-            {value: 3, label: '国际信息3'},
-        ])
+        const cateOption = reactive({
+            category:[]
+        })
         
         const close = ()=>{
             dialogTableVisible.value = false;
             emit("update:flag", false)
+        }
+        const openDialog = ()=>{
+            console.log(props.category)
+            cateOption.category = props.category;
+        }
+        
+        const submit = ()=>{
+            AddInfo({
+
+            })
+            dialogFormVisible = false
         }
         /**
          * watch
@@ -74,7 +89,7 @@ export default {
             //ractive
             listForm, cateOption,
             //methods
-            close
+            close, openDialog,submit
         }
     }
 }
