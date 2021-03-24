@@ -17,7 +17,7 @@
                 <svg-icon iconName="plus" />
                 {{ firstItem.category_name }}
                 <div class="button-group">
-                  <el-button type="success" size="mini" round>编辑</el-button>
+                  <el-button type="success" size="mini" round @click="editCate({currentItem: firstItem})">编辑</el-button>
                   <el-button type="primary" size="mini" round @click="addSecondHandle(firstItem)"
                     >添加子级</el-button
                   >
@@ -167,6 +167,7 @@ export default {
       addSecond.value = false;
       firstDisable.value = false;
       submitDisable.value = false;
+       formData.first = '';
       submit_button_type.value = 'add_first'
     };
     const addSecondHandle = (item)=>{
@@ -184,6 +185,9 @@ export default {
         }
         if(submit_button_type.value == 'add_second'){
             submitAddSecond(category.currentItem)
+        }
+        if(submit_button_type.value == 'editCate'){
+          submitEdit(category.currentItem)
         }
     };
     //提交添加一级分类
@@ -279,6 +283,28 @@ export default {
           console.log(err);
         });
     };
+    //点击编辑
+    const editCate = (params) =>{
+      addFirst.value = true;
+      addSecond.value = false;
+      firstDisable.value = false;
+      submitDisable.value = false;
+      formData.first = params.currentItem.category_name;
+      category.currentItem = params.currentItem;
+      submit_button_type.value = 'editCate'
+    }
+    //提交确认修改
+    const submitEdit = (item) =>{
+      EditCategory({
+        id: item.id,
+        categoryName: formData.first
+      }).then( res =>{
+        formData.first = '';
+        getCategoryInfo()
+      }).catch( err =>{
+        console.log(err)
+      })
+    }
     /**
      * onMounted
      */
@@ -306,7 +332,7 @@ export default {
       /** methods */
       submit, 
       addFirstHandle, addSecondHandle,
-      deleteCategory
+      deleteCategory, editCate
     };
   }
 };

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import LayoutIndex from "@/views/Layout/index.vue"
+import LayoutIndex from "@/views/layout/index.vue"
 
 Vue.use(VueRouter);
 
@@ -20,7 +20,7 @@ const routes = [
     meta:{
       name: "登录"
     },
-    component: ()=> import("../views/Login/index.vue")
+    component: ()=> import("../views/login/index.vue")
   },
   {
     path: "/layout",
@@ -37,7 +37,7 @@ const routes = [
         meta:{
           name: "首页"
         },
-        component: ()=> import("../views/Admin/index.vue"),
+        component: ()=> import("../views/admin/index.vue"),
       }
     ]
   },

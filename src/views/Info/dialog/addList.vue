@@ -43,6 +43,7 @@ export default {
          */
         const dialogTableVisible = ref(false)
         const listForm = reactive({
+            cate:'',
             categoryId:'',
             title:'',
             imgUrl: '',
@@ -66,7 +67,12 @@ export default {
         
         const submit = ()=>{
             AddInfo({
-
+                categoryId:'' ,
+                title: '',
+                imgUrl: '',
+                createDate:'' ,
+                status: '',
+                content: '',
             })
             dialogFormVisible = false
         }
